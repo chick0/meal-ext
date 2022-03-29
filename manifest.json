@@ -1,0 +1,29 @@
+{
+    "name": "급식",
+    "version": "1.0",
+    "author": "chick_0",
+    "description": "가장 빠르게 오늘의 급식 메뉴를 확인합니다.",
+    "permissions": [
+        "webRequest",
+        "storage"
+    ],
+    "browser_action": {
+        "default_icon": "icons/48.png",
+        "default_title": "급식",
+        "default_popup": "popup.html"
+    },
+    "icons": {
+        "32": "icons/32.png",
+        "48": "icons/48.png",
+        "64": "icons/64.png",
+        "128": "icons/128.png",
+        "192": "icons/192.png"
+    },
+    "browser_specific_settings": {
+        "gecko": {
+            "strict_min_version": "60.0"
+        }
+    },
+    "homepage_url": "https://school.ch1ck.xyz/",
+    "manifest_version": 2
+}
