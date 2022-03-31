@@ -1,6 +1,6 @@
 {
     "name": "급식",
-    "version": "1.0",
+    "version": "1.0.1",
     "author": "chick_0",
     "description": "가장 빠르게 오늘의 급식 메뉴를 확인합니다.",
     "permissions": [
@@ -21,6 +21,7 @@
     },
     "browser_specific_settings": {
         "gecko": {
+            "id": "{da7bb89d-4fb2-4a8d-98f1-a4a6d4c55352}",
             "strict_min_version": "60.0"
         }
     },
