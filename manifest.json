@@ -8,13 +8,11 @@
         "storage"
     ],
     "browser_action": {
-        "default_icon": "icons/48.png",
+        "default_icon": "icons/64.png",
         "default_title": "급식",
         "default_popup": "popup.html"
     },
     "icons": {
-        "32": "icons/32.png",
-        "48": "icons/48.png",
         "64": "icons/64.png",
         "128": "icons/128.png",
         "192": "icons/192.png"
