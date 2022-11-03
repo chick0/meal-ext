@@ -1,13 +1,11 @@
-const getApp = () => {
+function getApp() {
     const app = document.getElementById("app");
     app.innerHTML = "";
-
     return app;
-};
+}
 
-const fetchTodayMeal = (edu, school) => {
-    const host = "https://school.ch1ck.xyz";
-    fetch(`${host}/api/meal?edu=${edu}&school=${school}`).then((resp) => {
+function fetchTodayMeal(edu, school) {
+    fetch(`https://school.ch1ck.xyz/api/meal?edu=${edu}&school=${school}`).then((resp) => {
         return resp.json();
     }).then((apiResponse) => {
         const app = getApp();
@@ -47,32 +45,26 @@ const fetchTodayMeal = (edu, school) => {
     });
 };
 
-const main = () => {
-    browser.storage.local.get("school")
-        .then((school) => {
-            return school.school;
-        })
-        .then((school) => {
-            fetchTodayMeal(
-                school.edu,
-                school.school
-            );    
-        }).catch(() => {
-            const app = getApp();
+browser.storage.local.get("school")
+    .then((school) => {
+        return school.school;
+    })
+    .then((school) => {
+        fetchTodayMeal(
+            school.edu,
+            school.school
+        );    
+    }).catch(() => {
+        const app = getApp();
 
-            const alert = document.createElement("p");
-            alert.appendChild(document.createTextNode("학교 정보가 설정되지 않았습니다!"));
-            app.appendChild(alert);
-        
-            const link = document.createElement("a");
-            link.appendChild(document.createTextNode("학교 정보 설정하기"));
-            link.setAttribute("href", "select.html");
-            link.setAttribute("target", "_blank");
-            link.setAttribute("style", "text-decoration: none; color: #141414; background-color: #FFCC4D;");
-            app.appendChild(link);
-        
-        });
-};
+        const alert = document.createElement("p");
+        alert.appendChild(document.createTextNode("학교 정보가 설정되지 않았습니다!"));
+        app.appendChild(alert);
 
-// call main
-main();
+        const link = document.createElement("a");
+        link.appendChild(document.createTextNode("학교 정보 설정하기"));
+        link.setAttribute("href", "select.html");
+        link.setAttribute("target", "_blank");
+        link.setAttribute("style", "text-decoration: none; color: #141414; background-color: #FFCC4D;");
+        app.appendChild(link);
+    });
