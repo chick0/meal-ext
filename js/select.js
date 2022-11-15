@@ -1,22 +1,24 @@
-const render = () => {
-    browser.storage.local.get("school")
-        .then((school) => {
-            return school.school;
-        })
-        .then((school) => {
-            let name = school.name;
-            if(name.length == 0){
-                name = "없음";
-            }
+function render() {
+    const school_name = document.getElementById("school");
 
-            document.getElementById("school").innerText = name;
-        }).catch(() => {
-            document.getElementById("school").innerText = "설정된 학교가 없습니다!";
+    browser.storage.local.get("school")
+        .then((data) => {
+            const school = data.school;
+
+            if(school.name.length == 0) {
+                school_name.innerText = "없음";
+            } else {
+                school_name.innerText = school.name;
+            }
+        })
+        .catch(() => {
+            school_name.innerText = "설정된 학교가 없습니다!";
         });
 };
 
-const updateSchool = (name, edu, school) => {
-    alert(`학교 정보가 변경되었습니다!`);
+function update_school(name, edu, school) {
+    alert(`설정된 학교가 ${name}(으)로 변경되었습니다!`);
+
     browser.storage.local.set({
         school: {
             name,
@@ -28,8 +30,8 @@ const updateSchool = (name, edu, school) => {
     render();
 };
 
-const searchSchool = (e) => {
-    e.preventDefault();
+function searchSchool(event) {
+    event.preventDefault();
 
     const query = document.getElementById("searchBox").value.replace(" ", "");
 
@@ -38,36 +40,35 @@ const searchSchool = (e) => {
         document.getElementById("searchBox").focus();
     } else {
         const host = "https://school.ch1ck.xyz";
-        fetch(`${host}/api/school?school_name=${query}`).then((resp) => {
-            return resp.json();
-        }).then((apiResponse) => {
-            const display = document.getElementById("display");
-            display.innerHTML = "";
+        fetch(`${host}/api/school?school_name=${query}`)
+            .then((resp) => resp.json())
+            .then((json) => {
+                const display = document.getElementById("display");
+                display.innerHTML = "";
 
-            apiResponse.forEach((meta) => {
-                const li = document.createElement("li");
-                li.appendChild(document.createTextNode(meta.name));
-                li.setAttribute("style", "margin-bottom: 15px");
-                li.setAttribute("data-n", meta.name);
-                li.setAttribute("data-e", meta.code.edu);
-                li.setAttribute("data-s", meta.code.school);
+                json.forEach((meta) => {
+                    const li = document.createElement("li");
+                    li.appendChild(document.createTextNode(meta.name));
+                    li.setAttribute("style", "margin-bottom: 15px; cursor: pointer;");
+                    li.setAttribute("data-n", meta.name);
+                    li.setAttribute("data-e", meta.code.edu);
+                    li.setAttribute("data-s", meta.code.school);
 
-                li.addEventListener("click", (ev) => {
-                    const data = ev.target.dataset;
-                    updateSchool(
-                        data.n,
-                        data.e,
-                        data.s,
-                    );
+                    li.addEventListener("click", (ev) => {
+                        const data = ev.target.dataset;
+
+                        update_school(
+                            data.n,
+                            data.e,
+                            data.s,
+                        );
+                    });
+
+                    display.appendChild(li);
                 });
-
-                display.appendChild(li);
             });
-        });
     }
 };
 
-const init = () => {
-    document.getElementById("searchForm").addEventListener("submit", searchSchool);
-    render();
-}; init();
+document.getElementById("searchForm").addEventListener("submit", searchSchool);
+render();
